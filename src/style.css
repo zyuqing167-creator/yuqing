@@ -233,3 +233,7 @@ html,body,#root{width:100%;max-width:100%;overflow-x:hidden}
   .project-line>b{min-width:0;overflow-wrap:anywhere}
   .project-line em{width:25px;overflow:hidden}
 }
+/* Deployment-safe lightweight backgrounds. Relative URLs keep the GitHub Pages /yuqing/ base path. */
+.about{background-image:linear-gradient(rgba(6,5,16,.05),rgba(6,5,16,.1)),url('../web-assets/about-bg.jpg')}
+.project{background-image:url('../web-assets/project-bg.jpg')}
+.contact{background-image:url('../web-assets/contact-bg.jpg')}
