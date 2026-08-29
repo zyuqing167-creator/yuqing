@@ -1,0 +1,18 @@
+node_modules/
+dist/
+.pnpm-store/
+*.log
+.env
+.env.*
+.vercel/
+.DS_Store
+Thumbs.db
+
+# Local design exports not used by the running portfolio.
+public/project-status/
+public/portfolio-assets/project/detail/
+public/portfolio-assets/about me/
+public/portfolio-assets/background/01-navbar-bg.png.png
+public/portfolio-assets/background/02-hero-bg.png
+public/portfolio-assets/hero/动态视频hero-03.mp4
+public/portfolio-assets/hero/静态默认hero-01.png
