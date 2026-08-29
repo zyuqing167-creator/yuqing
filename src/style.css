@@ -237,3 +237,8 @@ html,body,#root{width:100%;max-width:100%;overflow-x:hidden}
 .about{background-image:linear-gradient(rgba(6,5,16,.05),rgba(6,5,16,.1)),url('../web-assets/about-bg.jpg')}
 .project{background-image:url('../web-assets/project-bg.jpg')}
 .contact{background-image:url('../web-assets/contact-bg.jpg')}
+
+/* Avoid compositor ghosting in iOS/embedded mobile browsers. */
+@media (max-width:900px){
+  .hero-content h1 span,.hero-content p,.hero-content .explore{opacity:1!important;filter:none!important;transform:none!important;animation:none!important;will-change:auto}
+}

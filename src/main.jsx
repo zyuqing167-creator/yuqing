@@ -83,7 +83,7 @@ function App() {
         <div className="about-head"><div><h2>WORK EXPERIENCE</h2><span>个人经历</span></div><span>About me</span></div>
         <div className="about-main">
           <div className="portrait-frame">
-            <img className="portrait" src={assetPath('web-assets/avatar.jpg')} alt="张家祥头像" loading="lazy" decoding="async" />
+            <img className="portrait" src={assetPath('web-assets/avatar-crop.jpg')} alt="张家祥头像" loading="lazy" decoding="async" />
           </div>
           <div className="about-copy">
             <h3>Hi, I am <em>JIAXIANG</em> !</h3>
