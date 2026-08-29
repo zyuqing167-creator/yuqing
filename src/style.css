@@ -43,6 +43,7 @@
 .gallery{width:calc(100% - 80px);max-width:1400px;max-height:100%;padding:clamp(24px,3vw,48px);border:0;border-radius:12px;background:#090713;box-shadow:0 24px 80px rgba(0,0,0,.52)}
 .gallery header{margin-bottom:clamp(40px,3.2vw,56px)}
 .gallery-grid{display:flex;flex-direction:column;gap:12px;width:100%}
+.gallery-grid picture{display:block;width:100%}
 .gallery-grid img{display:block;width:100%;height:auto;object-fit:contain;border-radius:6px;background:transparent;box-shadow:none}
 @media(max-width:900px){
   .gallery-modal{padding:12px 0}
