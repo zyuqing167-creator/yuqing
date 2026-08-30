@@ -11,6 +11,7 @@ function App() {
   const [copyMessage, setCopyMessage] = useState('')
   const [isNavScrolled, setIsNavScrolled] = useState(false)
   const [activeSection, setActiveSection] = useState('home')
+  const [isDesktopHero] = useState(() => window.matchMedia('(min-width: 901px)').matches)
   const projectScrollPosition = useRef(0)
   const projectIcons = [assetPath('portfolio-assets/icons/03-project-02.png'), assetPath('portfolio-assets/icons/03-project-03.png')]
   const projectData = [
@@ -70,6 +71,9 @@ function App() {
       <main className="portfolio">
         <section className="hero" id="home" aria-label="首页">
           <img className="hero-poster" src={assetPath('web-assets/hero-poster.jpg')} alt="" fetchPriority="high" decoding="async" />
+          {isDesktopHero && <video className="hero-video" autoPlay muted loop playsInline preload="metadata" poster={assetPath('web-assets/hero-poster.jpg')}>
+            <source src={assetPath('portfolio-assets/hero/动态默认hero-03.mp4')} type="video/mp4" />
+          </video>}
           <div className="hero-veil" />
         <div className="hero-content">
           <h1><span>Designing</span><span>Meaningful Experiences.</span></h1>

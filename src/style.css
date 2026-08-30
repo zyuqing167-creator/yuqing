@@ -57,17 +57,18 @@
 @media (min-width:901px) and (prefers-reduced-motion:no-preference){
   .hero-content h1 span,.hero-content p,.hero-content .explore{
     opacity:0;
-    animation:hero-drop-in .72s cubic-bezier(.2,.72,.25,1) forwards;
-    will-change:transform,opacity;
+    clip-path:inset(0 0 100% 0);
+    animation:hero-reveal-down .68s cubic-bezier(.2,.72,.25,1) forwards;
+    will-change:clip-path,opacity;
   }
   .hero-content h1 span:nth-child(1){animation-delay:.08s}
   .hero-content h1 span:nth-child(2){animation-delay:.2s}
   .hero-content p{animation-delay:.38s}
   .hero-content .explore{animation-delay:.54s}
 }
-@keyframes hero-drop-in{
-  from{opacity:0;transform:translate3d(0,-52px,0)}
-  to{opacity:1;transform:translate3d(0,0,0)}
+@keyframes hero-reveal-down{
+  from{opacity:0;clip-path:inset(0 0 100% 0)}
+  to{opacity:1;clip-path:inset(0 0 0 0)}
 }
 
 /* Hover-only animated light travelling around the existing Explore outline. */
