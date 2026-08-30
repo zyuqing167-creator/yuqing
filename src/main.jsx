@@ -13,6 +13,7 @@ function App() {
   const [activeSection, setActiveSection] = useState('home')
   const [isDesktopHero] = useState(() => window.matchMedia('(min-width: 901px)').matches)
   const [heroIntroPlaying, setHeroIntroPlaying] = useState(() => window.matchMedia('(min-width: 901px)').matches)
+  const [heroIntroStarted, setHeroIntroStarted] = useState(false)
   const [heroVideoEnabled, setHeroVideoEnabled] = useState(false)
   const projectScrollPosition = useRef(0)
   const projectIcons = [assetPath('portfolio-assets/icons/03-project-02.png'), assetPath('portfolio-assets/icons/03-project-03.png')]
@@ -70,6 +71,7 @@ function App() {
   }, [isDesktopHero])
   const finishHeroIntro = () => {
     setHeroIntroPlaying(false)
+    setHeroIntroStarted(false)
     setHeroVideoEnabled(true)
   }
   return (
@@ -94,14 +96,14 @@ function App() {
           {heroVideoEnabled && <video className="hero-video" autoPlay muted loop playsInline preload="metadata" poster={assetPath('web-assets/hero-poster.jpg')} onLoadedMetadata={event => { event.currentTarget.currentTime = 1.6 }}>
             <source src={assetPath('portfolio-assets/hero/动态默认hero-03.mp4')} type="video/mp4" />
           </video>}
-          {isDesktopHero && heroIntroPlaying && <video className="hero-intro-video" autoPlay muted playsInline preload="auto" poster={assetPath('web-assets/hero-poster.jpg')} onEnded={finishHeroIntro} onError={finishHeroIntro}>
+          {isDesktopHero && heroIntroPlaying && <video className="hero-intro-video" autoPlay muted playsInline preload="auto" poster={assetPath('web-assets/hero-poster.jpg')} onPlaying={() => setHeroIntroStarted(true)} onEnded={finishHeroIntro} onError={finishHeroIntro}>
             <source src={assetPath('web-assets/hero-intro.mp4')} type="video/mp4" />
           </video>}
           <div className="hero-veil" />
         <div className="hero-content">
-          <h1 className={heroIntroPlaying ? 'hero-copy-hidden' : ''}><span>Designing</span><span>Meaningful Experiences.</span></h1>
-          <p className={heroIntroPlaying ? 'hero-copy-hidden' : ''}>UI Designer Focused On Product Experience,<br />Design Systems And AI Workflow.</p>
-          <a className={`explore${heroIntroPlaying ? ' hero-copy-hidden' : ''}`} href="#project"><img src={assetPath('portfolio-assets/icons/02-hero.png')} alt="Explore Projects" /></a>
+          <h1 className={heroIntroPlaying && heroIntroStarted ? 'hero-copy-hidden' : ''}><span>Designing</span><span>Meaningful Experiences.</span></h1>
+          <p className={heroIntroPlaying && heroIntroStarted ? 'hero-copy-hidden' : ''}>UI Designer Focused On Product Experience,<br />Design Systems And AI Workflow.</p>
+          <a className={`explore${heroIntroPlaying && heroIntroStarted ? ' hero-copy-hidden' : ''}`} href="#project"><img src={assetPath('portfolio-assets/icons/02-hero.png')} alt="Explore Projects" /></a>
         </div>
       </section>
 
