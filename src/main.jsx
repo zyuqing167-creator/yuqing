@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { createRoot } from 'react-dom/client'
 import './style.css'
+import DotGrid from './DotGrid'
 
 const assetPath = (path) => `${import.meta.env.BASE_URL}${path.replace(/^\/+/, '')}`
 
@@ -68,7 +69,8 @@ function App() {
       </header>
       <main className="portfolio">
         <section className="hero" id="home" aria-label="首页">
-          <video className="hero-video" autoPlay muted loop playsInline preload="metadata" poster={assetPath('web-assets/hero-poster.jpg')}>
+          <img className="hero-poster" src={assetPath('web-assets/hero-poster.jpg')} alt="" fetchPriority="high" decoding="async" />
+          <video className="hero-video" autoPlay muted loop playsInline preload="none" poster={assetPath('web-assets/hero-poster.jpg')}>
             <source src={assetPath('portfolio-assets/hero/动态默认hero-03.mp4')} type="video/mp4" />
           </video>
           <div className="hero-veil" />
@@ -80,6 +82,7 @@ function App() {
       </section>
 
       <section className="about section-shell" id="about" style={{ backgroundImage: `linear-gradient(rgba(6,5,16,.05),rgba(6,5,16,.1)),url("${assetPath('web-assets/about-bg.jpg')}")` }}>
+        <DotGrid className="about-dot-grid" dotSize={1.35} gap={30} baseColor="#28203f" activeColor="#9b7cff" proximity={145} />
         <div className="about-head"><div><h2>WORK EXPERIENCE</h2><span>个人经历</span></div><span>About me</span></div>
         <div className="about-main">
           <div className="portrait-frame">
@@ -100,11 +103,11 @@ function App() {
         </div></div>
       </section>
 
-      <section className="project section-shell" id="project" style={{ backgroundImage: `url("${assetPath('web-assets/project-bg.jpg')}")` }}><h2>PROJECT</h2><div className="project-card">
+      <section className="project section-shell" id="project" style={{ backgroundImage: `url("${assetPath('web-assets/project-bg.jpg')}")` }}><DotGrid className="section-dot-grid" dotSize={1.2} gap={34} baseColor="#241a3b" activeColor="#9676ff" proximity={140} /><h2>PROJECT</h2><div className="project-card">
         {projectData.map((project,index)=><button type="button" className="project-row" key={project.title} onClick={() => openProject(project)}><div className="project-line"><span>0{index + 1}</span><b>{project.title}</b>{index < 2 && <img src={projectIcons[index]} alt="" />}<em>→</em></div><div className="project-preview"><div className="project-cover"><img src={assetPath(`web-assets/project-cover-${index + 1}.jpg`)} alt={`${project.title} 预览`} loading="lazy" decoding="async" /></div></div></button>)}
       </div></section>
 
-      <section className="contact section-shell" id="contact"><span>CONTACT</span><div className="contact-content"><h2>Ready to Build<br />the Future Together?</h2><p>If my work resonates with you,<br />let's explore new creative possibilities<br />- through visual design, AI, and ideas that push beyond boundaries.</p></div><div className="contact-footer"><div><button type="button" onClick={() => copy('15565043305', '手机号')}><img src={assetPath('portfolio-assets/icons/05-contactTelephone-02.png')} alt="" /><span>15565043305</span></button><button type="button" onClick={() => copy('768340092@qq.com', '邮箱')}><img src={assetPath('portfolio-assets/icons/05-contact-Email-03.png')} alt="" /><span>768340092@qq.com</span></button><button type="button" onClick={() => copy('Zz-wine', '微信号')}><img src={assetPath('portfolio-assets/icons/05-contact-WeChat-04.png')} alt="" /><span>Zz-wine</span></button></div><button className="say-hello" type="button" onClick={() => setShowWechat(true)}>Say Hello　→</button></div></section>
+      <section className="contact section-shell" id="contact"><DotGrid className="section-dot-grid" dotSize={1.2} gap={34} baseColor="#251d38" activeColor="#9676ff" proximity={140} /><span>CONTACT</span><div className="contact-content"><h2>Ready to Build<br />the Future Together?</h2><p>If my work resonates with you,<br />let's explore new creative possibilities<br />- through visual design, AI, and ideas that push beyond boundaries.</p></div><div className="contact-footer"><div><button type="button" onClick={() => copy('15565043305', '手机号')}><img src={assetPath('portfolio-assets/icons/05-contactTelephone-02.png')} alt="" /><span>15565043305</span></button><button type="button" onClick={() => copy('768340092@qq.com', '邮箱')}><img src={assetPath('portfolio-assets/icons/05-contact-Email-03.png')} alt="" /><span>768340092@qq.com</span></button><button type="button" onClick={() => copy('Zz-wine', '微信号')}><img src={assetPath('portfolio-assets/icons/05-contact-WeChat-04.png')} alt="" /><span>Zz-wine</span></button></div><button className="say-hello" type="button" onClick={() => setShowWechat(true)}>Say Hello　→</button></div></section>
       {showWechat && <div className="wechat-modal" role="dialog" aria-modal="true" aria-label="联系方式"><button className="modal-backdrop" aria-label="关闭联系方式" onClick={() => setShowWechat(false)} /><section className="contact-card"><button className="contact-modal-close" type="button" onClick={() => setShowWechat(false)} aria-label="关闭">×</button><h2>CONTACT</h2><div className="contact-card-list"><button type="button" onClick={() => copy('15565043305', '手机号')}><img src={assetPath('portfolio-assets/icons/05-contactTelephone-02.png')} alt="" /><span>15565043305</span></button><button type="button" onClick={() => copy('768340092@qq.com', '邮箱')}><img src={assetPath('portfolio-assets/icons/05-contact-Email-03.png')} alt="" /><span>768340092@qq.com</span></button><button type="button" onClick={() => copy('Zz-wine', '微信号')}><img src={assetPath('portfolio-assets/icons/05-contact-WeChat-04.png')} alt="" /><span>Zz-wine</span></button></div><img className="contact-qr" src={assetPath('portfolio-assets/icons/05contact-05.png')} alt="微信二维码" /></section></div>}
       {activeProject && <div className="gallery-modal" id="project-detail" role="dialog" aria-modal="true" aria-label={activeProject.title}><button className="modal-backdrop" aria-label="关闭作品集" onClick={closeProject} /><div className="gallery"><header><div><span>SELECTED PROJECT</span><h2>{activeProject.title}</h2></div></header><div className="gallery-grid">{Array.from({length: activeProject.count}, (_, index) => <picture key={index}><source media="(max-width: 900px)" srcSet={assetPath(`projects-phone/${activeProject.folder}/${index + 1}.jpg`)} /><img src={assetPath(`projects-web/${activeProject.folder}/${index + 1}.jpg`)} alt={`${activeProject.title} 作品 ${index + 1}`} loading={index === 0 ? 'eager' : 'lazy'} decoding="async" /></picture>)}</div></div></div>}
       {copyMessage && <div className="copy-toast" role="status">{copyMessage}</div>}
