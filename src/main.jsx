@@ -11,6 +11,8 @@ function App() {
   const [copyMessage, setCopyMessage] = useState('')
   const [isNavScrolled, setIsNavScrolled] = useState(false)
   const [activeSection, setActiveSection] = useState('home')
+  const [heroIntroActive, setHeroIntroActive] = useState(true)
+  const [heroVideoEnabled, setHeroVideoEnabled] = useState(false)
   const projectScrollPosition = useRef(0)
   const projectIcons = [assetPath('portfolio-assets/icons/03-project-02.png'), assetPath('portfolio-assets/icons/03-project-03.png')]
   const projectData = [
@@ -51,6 +53,20 @@ function App() {
       window.removeEventListener('resize', syncNavigation)
     }
   }, [])
+  useEffect(() => {
+    const desktop = window.matchMedia('(min-width: 901px)').matches
+    if (!desktop) {
+      setHeroIntroActive(false)
+      setHeroVideoEnabled(false)
+      return undefined
+    }
+    const finishIntro = window.setTimeout(() => setHeroIntroActive(false), 2100)
+    const startVideo = window.setTimeout(() => setHeroVideoEnabled(true), 2200)
+    return () => {
+      window.clearTimeout(finishIntro)
+      window.clearTimeout(startVideo)
+    }
+  }, [])
   return (
     <>
       <header className={`site-header${isNavScrolled ? ' is-scrolled' : ''}`}>
@@ -70,11 +86,11 @@ function App() {
       <main className="portfolio">
         <section className="hero" id="home" aria-label="首页">
           <img className="hero-poster" src={assetPath('web-assets/hero-poster.jpg')} alt="" fetchPriority="high" decoding="async" />
-          <video className="hero-video" autoPlay muted loop playsInline preload="none" poster={assetPath('web-assets/hero-poster.jpg')}>
+          {heroVideoEnabled && <video className="hero-video" autoPlay muted loop playsInline preload="metadata" poster={assetPath('web-assets/hero-poster.jpg')}>
             <source src={assetPath('portfolio-assets/hero/动态默认hero-03.mp4')} type="video/mp4" />
-          </video>
+          </video>}
           <div className="hero-veil" />
-        <div className="hero-content">
+        <div className={`hero-content${heroIntroActive ? ' is-entering' : ''}`}>
           <h1><span>Designing</span><span>Meaningful Experiences.</span></h1>
           <p>UI Designer Focused On Product Experience,<br />Design Systems And AI Workflow.</p>
           <a className="explore" href="#project"><img src={assetPath('portfolio-assets/icons/02-hero.png')} alt="Explore Projects" /></a>

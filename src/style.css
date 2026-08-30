@@ -53,8 +53,14 @@
   .gallery-grid img{border-radius:4px}
 }
 
-/* Interview-safe hero: keep copy in a single, stable compositor layer. */
+/* Stable default state; the temporary desktop class is removed after entrance. */
 .hero-content h1 span,.hero-content p,.hero-content .explore{opacity:1;filter:none;animation:none;will-change:auto}
+.hero-content.is-entering h1 span,.hero-content.is-entering p,.hero-content.is-entering .explore{animation:hero-safe-drop 1.05s cubic-bezier(.16,.68,.23,1) both;will-change:transform,opacity}
+.hero-content.is-entering h1 span:nth-child(1){animation-delay:.08s}
+.hero-content.is-entering h1 span:nth-child(2){animation-delay:.32s}
+.hero-content.is-entering p{animation-delay:.58s}
+.hero-content.is-entering .explore{animation-delay:.84s}
+@keyframes hero-safe-drop{from{opacity:0;transform:translateY(-34px)}to{opacity:1;transform:translateY(0)}}
 
 /* Hover-only animated light travelling around the existing Explore outline. */
 @property --explore-glow-angle{
@@ -230,6 +236,9 @@ html,body,#root{width:100%;max-width:100%;overflow-x:hidden}
   .hero-poster{object-position:56% center}
   .hero-content h1 span,.hero-content p,.hero-content .explore{opacity:1!important;filter:none!important;transform:none!important;animation:none!important;will-change:auto!important}
 }
+
+/* Avoid a permanent transformed compositor layer behind the animated copy. */
+@media (min-width:901px){.hero-content{left:19.45%;transform:none;contain:layout paint}}
 
 /* React Bits-inspired dot field for otherwise empty dark areas. */
 .about{isolation:isolate;overflow:hidden}
