@@ -11,7 +11,7 @@ function App() {
   const [copyMessage, setCopyMessage] = useState('')
   const [isNavScrolled, setIsNavScrolled] = useState(false)
   const [activeSection, setActiveSection] = useState('home')
-  const [heroIntroActive, setHeroIntroActive] = useState(true)
+  const [heroStage, setHeroStage] = useState(0)
   const [heroVideoEnabled, setHeroVideoEnabled] = useState(false)
   const projectScrollPosition = useRef(0)
   const projectIcons = [assetPath('portfolio-assets/icons/03-project-02.png'), assetPath('portfolio-assets/icons/03-project-03.png')]
@@ -56,14 +56,16 @@ function App() {
   useEffect(() => {
     const desktop = window.matchMedia('(min-width: 901px)').matches
     if (!desktop) {
-      setHeroIntroActive(false)
+      setHeroStage(4)
       setHeroVideoEnabled(false)
       return undefined
     }
-    const finishIntro = window.setTimeout(() => setHeroIntroActive(false), 2100)
-    const startVideo = window.setTimeout(() => setHeroVideoEnabled(true), 2200)
+    const stageTimers = [180, 520, 860, 1200].map((delay, index) =>
+      window.setTimeout(() => setHeroStage(index + 1), delay)
+    )
+    const startVideo = window.setTimeout(() => setHeroVideoEnabled(true), 1650)
     return () => {
-      window.clearTimeout(finishIntro)
+      stageTimers.forEach(window.clearTimeout)
       window.clearTimeout(startVideo)
     }
   }, [])
@@ -90,10 +92,10 @@ function App() {
             <source src={assetPath('portfolio-assets/hero/动态默认hero-03.mp4')} type="video/mp4" />
           </video>}
           <div className="hero-veil" />
-        <div className={`hero-content${heroIntroActive ? ' is-entering' : ''}`}>
-          <h1><span>Designing</span><span>Meaningful Experiences.</span></h1>
-          <p>UI Designer Focused On Product Experience,<br />Design Systems And AI Workflow.</p>
-          <a className="explore" href="#project"><img src={assetPath('portfolio-assets/icons/02-hero.png')} alt="Explore Projects" /></a>
+        <div className="hero-content">
+          <h1><span className={`hero-reveal${heroStage >= 1 ? ' is-visible' : ''}`}>Designing</span><span className={`hero-reveal${heroStage >= 2 ? ' is-visible' : ''}`}>Meaningful Experiences.</span></h1>
+          <p className={`hero-reveal${heroStage >= 3 ? ' is-visible' : ''}`}>UI Designer Focused On Product Experience,<br />Design Systems And AI Workflow.</p>
+          <a className={`explore hero-reveal${heroStage >= 4 ? ' is-visible' : ''}`} href="#project"><img src={assetPath('portfolio-assets/icons/02-hero.png')} alt="Explore Projects" /></a>
         </div>
       </section>
 
