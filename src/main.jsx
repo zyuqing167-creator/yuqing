@@ -16,6 +16,7 @@ function App() {
   const [heroIntroStarted, setHeroIntroStarted] = useState(false)
   const [heroVideoEnabled, setHeroVideoEnabled] = useState(false)
   const projectScrollPosition = useRef(0)
+  const heroIntroFallback = useRef(0)
   const projectIcons = [assetPath('portfolio-assets/icons/03-project-02.png'), assetPath('portfolio-assets/icons/03-project-03.png')]
   const projectData = [
     { title: 'Mobile APP Design', folder: 'mobile', count: 9 },
@@ -61,12 +62,12 @@ function App() {
       setHeroVideoEnabled(false)
       return undefined
     }
-    const fallback = window.setTimeout(() => {
+    heroIntroFallback.current = window.setTimeout(() => {
       setHeroIntroPlaying(false)
       setHeroVideoEnabled(true)
     }, 2600)
     return () => {
-      window.clearTimeout(fallback)
+      window.clearTimeout(heroIntroFallback.current)
     }
   }, [isDesktopHero])
   const finishHeroIntro = () => {
@@ -96,7 +97,7 @@ function App() {
           {heroVideoEnabled && <video className="hero-video" autoPlay muted loop playsInline preload="metadata" poster={assetPath('web-assets/hero-poster.jpg')} onLoadedMetadata={event => { event.currentTarget.currentTime = 1.6 }}>
             <source src={assetPath('portfolio-assets/hero/动态默认hero-03.mp4')} type="video/mp4" />
           </video>}
-          {isDesktopHero && heroIntroPlaying && <video className="hero-intro-video" autoPlay muted playsInline preload="auto" poster={assetPath('web-assets/hero-poster.jpg')} onPlaying={() => setHeroIntroStarted(true)} onEnded={finishHeroIntro} onError={finishHeroIntro}>
+          {isDesktopHero && heroIntroPlaying && <video className="hero-intro-video" autoPlay muted playsInline preload="auto" poster={assetPath('web-assets/hero-poster.jpg')} onPlaying={() => { window.clearTimeout(heroIntroFallback.current); setHeroIntroStarted(true) }} onEnded={finishHeroIntro} onError={finishHeroIntro}>
             <source src={assetPath('web-assets/hero-intro.mp4')} type="video/mp4" />
           </video>}
           <div className="hero-veil" />
