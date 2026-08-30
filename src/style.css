@@ -53,10 +53,9 @@
   .gallery-grid img{border-radius:4px}
 }
 
-/* Stable staged opening: no transformed or clipped text compositor layers. */
+/* Pre-rendered desktop opening keeps moving type inside one video layer. */
 .hero-content h1 span,.hero-content p,.hero-content .explore{opacity:1;filter:none;transform:none;animation:none;will-change:auto}
-.hero-reveal{visibility:hidden}
-.hero-reveal.is-visible{visibility:visible}
+.hero-copy-hidden{visibility:hidden}
 
 /* Hover-only animated light travelling around the existing Explore outline. */
 @property --explore-glow-angle{
@@ -226,9 +225,9 @@ html,body,#root{width:100%;max-width:100%;overflow-x:hidden}
 
 /* A lightweight poster renders immediately; mobile never starts the video decoder. */
 .hero-poster{position:absolute;inset:0;z-index:0;width:100%;height:100%;display:block;object-fit:cover;object-position:center}
-.hero-video{z-index:0}
+.hero-video,.hero-intro-video{position:absolute;inset:0;z-index:0;width:100%;height:100%;display:block;object-fit:cover;object-position:center}
 @media (max-width:900px){
-  .hero-video{display:none}
+  .hero-video,.hero-intro-video{display:none}
   .hero-poster{object-position:56% center}
   .hero-content h1 span,.hero-content p,.hero-content .explore{opacity:1!important;filter:none!important;transform:none!important;animation:none!important;will-change:auto!important}
 }

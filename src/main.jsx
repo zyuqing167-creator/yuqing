@@ -11,7 +11,8 @@ function App() {
   const [copyMessage, setCopyMessage] = useState('')
   const [isNavScrolled, setIsNavScrolled] = useState(false)
   const [activeSection, setActiveSection] = useState('home')
-  const [heroStage, setHeroStage] = useState(0)
+  const [isDesktopHero] = useState(() => window.matchMedia('(min-width: 901px)').matches)
+  const [heroIntroPlaying, setHeroIntroPlaying] = useState(() => window.matchMedia('(min-width: 901px)').matches)
   const [heroVideoEnabled, setHeroVideoEnabled] = useState(false)
   const projectScrollPosition = useRef(0)
   const projectIcons = [assetPath('portfolio-assets/icons/03-project-02.png'), assetPath('portfolio-assets/icons/03-project-03.png')]
@@ -54,21 +55,23 @@ function App() {
     }
   }, [])
   useEffect(() => {
-    const desktop = window.matchMedia('(min-width: 901px)').matches
-    if (!desktop) {
-      setHeroStage(4)
+    if (!isDesktopHero) {
+      setHeroIntroPlaying(false)
       setHeroVideoEnabled(false)
       return undefined
     }
-    const stageTimers = [180, 520, 860, 1200].map((delay, index) =>
-      window.setTimeout(() => setHeroStage(index + 1), delay)
-    )
-    const startVideo = window.setTimeout(() => setHeroVideoEnabled(true), 1650)
+    const fallback = window.setTimeout(() => {
+      setHeroIntroPlaying(false)
+      setHeroVideoEnabled(true)
+    }, 2600)
     return () => {
-      stageTimers.forEach(window.clearTimeout)
-      window.clearTimeout(startVideo)
+      window.clearTimeout(fallback)
     }
-  }, [])
+  }, [isDesktopHero])
+  const finishHeroIntro = () => {
+    setHeroIntroPlaying(false)
+    setHeroVideoEnabled(true)
+  }
   return (
     <>
       <header className={`site-header${isNavScrolled ? ' is-scrolled' : ''}`}>
@@ -88,14 +91,17 @@ function App() {
       <main className="portfolio">
         <section className="hero" id="home" aria-label="首页">
           <img className="hero-poster" src={assetPath('web-assets/hero-poster.jpg')} alt="" fetchPriority="high" decoding="async" />
-          {heroVideoEnabled && <video className="hero-video" autoPlay muted loop playsInline preload="metadata" poster={assetPath('web-assets/hero-poster.jpg')}>
+          {heroVideoEnabled && <video className="hero-video" autoPlay muted loop playsInline preload="metadata" poster={assetPath('web-assets/hero-poster.jpg')} onLoadedMetadata={event => { event.currentTarget.currentTime = 1.6 }}>
             <source src={assetPath('portfolio-assets/hero/动态默认hero-03.mp4')} type="video/mp4" />
+          </video>}
+          {isDesktopHero && heroIntroPlaying && <video className="hero-intro-video" autoPlay muted playsInline preload="auto" poster={assetPath('web-assets/hero-poster.jpg')} onEnded={finishHeroIntro} onError={finishHeroIntro}>
+            <source src={assetPath('web-assets/hero-intro.mp4')} type="video/mp4" />
           </video>}
           <div className="hero-veil" />
         <div className="hero-content">
-          <h1><span className={`hero-reveal${heroStage >= 1 ? ' is-visible' : ''}`}>Designing</span><span className={`hero-reveal${heroStage >= 2 ? ' is-visible' : ''}`}>Meaningful Experiences.</span></h1>
-          <p className={`hero-reveal${heroStage >= 3 ? ' is-visible' : ''}`}>UI Designer Focused On Product Experience,<br />Design Systems And AI Workflow.</p>
-          <a className={`explore hero-reveal${heroStage >= 4 ? ' is-visible' : ''}`} href="#project"><img src={assetPath('portfolio-assets/icons/02-hero.png')} alt="Explore Projects" /></a>
+          <h1 className={heroIntroPlaying ? 'hero-copy-hidden' : ''}><span>Designing</span><span>Meaningful Experiences.</span></h1>
+          <p className={heroIntroPlaying ? 'hero-copy-hidden' : ''}>UI Designer Focused On Product Experience,<br />Design Systems And AI Workflow.</p>
+          <a className={`explore${heroIntroPlaying ? ' hero-copy-hidden' : ''}`} href="#project"><img src={assetPath('portfolio-assets/icons/02-hero.png')} alt="Explore Projects" /></a>
         </div>
       </section>
 
