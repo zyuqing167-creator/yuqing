@@ -140,7 +140,7 @@
 .navbar{width:100%;max-width:1440px;height:60px;margin:0 auto;padding:0 32px;display:flex;align-items:center;justify-content:space-between;border:0;border-radius:0;background:none;box-shadow:none}
 .identity{gap:10px;font-size:15px;font-weight:600;letter-spacing:.06em}
 .logo-mark{width:22px;height:22px;filter:none}
-.nav-links{display:flex;align-items:center;gap:48px;font-size:14px;font-weight:500;letter-spacing:.045em;color:rgba(255,255,255,.65)}
+.nav-links{display:flex;align-items:center;gap:48px;margin-left:auto;margin-right:clamp(32px,4vw,64px);font-size:14px;font-weight:500;letter-spacing:.045em;color:rgba(255,255,255,.65)}
 .nav-links a,.contact-link{transition:color .2s ease,opacity .2s ease,background-color .2s ease,border-color .2s ease}
 .nav-links a:hover,.nav-links .active{color:#fff}
 .contact-link{min-width:0;height:36px;padding:0 20px;display:inline-flex;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,.18);border-radius:18px;background:rgba(255,255,255,.04);font-size:14px;font-weight:500;letter-spacing:.055em}
@@ -198,8 +198,8 @@
 
 /* Final navigation active state and balanced brand mark. */
 .logo-mark{width:27px;height:27px}
-.nav-links a{position:relative;color:rgba(255,255,255,.6);font-weight:500;transition:color .2s ease,opacity .2s ease}
-.nav-links a::after{content:"";position:absolute;left:50%;bottom:-8px;width:0;height:2px;border-radius:2px;background:rgba(255,255,255,.88);transform:translateX(-50%);transition:width .2s ease,opacity .2s ease;opacity:0}
+.nav-links a{position:relative;height:60px;padding:0 3px;display:flex;align-items:center;color:rgba(255,255,255,.6);font-weight:500;transition:color .2s ease,opacity .2s ease}
+.nav-links a::after{content:"";position:absolute;left:50%;bottom:7px;width:0;height:2px;border-radius:2px;background:rgba(255,255,255,.88);transform:translateX(-50%);transition:width .2s ease,opacity .2s ease;opacity:0}
 .nav-links a:hover{color:rgba(255,255,255,.9)}
 .nav-links a.active{color:#fff;font-weight:600}
 .nav-links a.active::after{width:18px;opacity:1}
@@ -239,7 +239,8 @@ html,body,#root{width:100%;max-width:100%;overflow-x:hidden}
 
 /* A lightweight poster renders immediately; mobile never starts the video decoder. */
 .hero-poster{position:absolute;inset:0;z-index:0;width:100%;height:100%;display:block;object-fit:cover;object-position:center}
-.hero-video{position:absolute;inset:0;z-index:0;width:100%;height:100%;display:block;object-fit:cover;object-position:center}
+.hero-video{position:absolute;inset:0;z-index:0;width:100%;height:100%;display:block;object-fit:cover;object-position:center;opacity:0;transition:opacity .28s linear}
+.hero-video.is-ready{opacity:1}
 @media (max-width:900px){
   .hero-video{display:none}
   .hero-poster{object-position:56% center}
@@ -248,6 +249,73 @@ html,body,#root{width:100%;max-width:100%;overflow-x:hidden}
 
 /* Avoid a permanent transformed compositor layer behind the animated copy. */
 @media (min-width:901px){.hero-content{left:19.45%;transform:none;contain:layout paint}}
+
+/* SpaceEdu-inspired Hero, adapted to the existing portfolio navigation and anchors. */
+.hero{min-height:100svh;height:100svh;background:#050b17;isolation:isolate}
+.hero-veil{background:linear-gradient(180deg,rgba(2,7,17,.42) 0%,rgba(4,8,19,.16) 42%,rgba(1,5,13,.38) 100%),radial-gradient(circle at 50% 64%,transparent 0 22%,rgba(2,7,17,.28) 72%)}
+.hero-content{top:50%;left:50%;width:min(760px,72vw);transform:translate(-50%,-48%);contain:none;text-align:center}
+.hero-eyebrow{display:block;font:500 clamp(13px,1vw,17px)/1 "Chakra Petch",sans-serif;letter-spacing:.35em;color:rgba(255,255,255,.86)}
+.hero-content h1{margin:clamp(24px,3vh,36px) 0 0;font-family:Georgia,"Times New Roman",serif;font-size:clamp(76px,8.2vw,136px);font-weight:400;line-height:.92;letter-spacing:.04em;text-shadow:0 4px 30px rgba(0,0,0,.3)}
+.hero-rule{display:block;width:82px;height:4px;margin:clamp(22px,3vh,34px) auto 0;border-radius:4px;background:#75dce9;box-shadow:0 0 18px rgba(117,220,233,.45)}
+.hero-content p{margin:clamp(20px,2.8vh,32px) auto 0;font-size:clamp(14px,1vw,17px);line-height:1.7;letter-spacing:.01em;color:rgba(255,255,255,.82)}
+.hero-actions{position:relative;display:flex;align-items:center;justify-content:center;margin-top:clamp(34px,5vh,58px)}
+.explore{width:auto;min-width:218px;height:62px;margin:0;padding:0 32px;border-radius:999px;background:linear-gradient(180deg,#fff 0%,#dbeeff 72%,#fff 100%);color:#071227;font:700 14px/1 "Chakra Petch",sans-serif;letter-spacing:.055em;box-shadow:0 10px 26px rgba(255,255,255,.18),inset 0 0 0 1px rgba(255,255,255,.95);transition:transform .25s ease,box-shadow .25s ease}
+.explore:hover{transform:translateY(-3px);background:linear-gradient(180deg,#fff 0%,#dbeeff 72%,#fff 100%);box-shadow:0 14px 34px rgba(117,220,233,.3),inset 0 0 0 1px #fff}
+.explore::before,.explore::after{display:none}
+.hero-side-link{position:absolute;top:50%;display:flex;align-items:center;gap:16px;transform:translateY(-50%);font:400 15px/1 Georgia,serif;letter-spacing:.24em;color:rgba(255,255,255,.9)}
+.hero-side-left{right:calc(100% + 62px)}.hero-side-right{left:calc(100% + 62px)}
+.hero-side-link i{display:block;width:72px;aspect-ratio:1;border:1px solid rgba(126,215,255,.45);border-radius:50%;background:radial-gradient(circle at 34% 30%,#bad8ff 0 5%,#5088c0 18%,#17375d 47%,#071426 70%);box-shadow:inset -12px -14px 18px rgba(0,0,0,.45),0 0 26px rgba(63,141,220,.22);transition:transform .35s ease,box-shadow .35s ease}
+.hero-side-right i{background:radial-gradient(circle at 34% 30%,#ffd7ab 0 5%,#bb7146 20%,#683522 49%,#190e0a 72%);box-shadow:inset -12px -14px 18px rgba(0,0,0,.5),0 0 26px rgba(203,101,58,.2)}
+.hero-side-link:hover i{transform:scale(1.08);box-shadow:inset -12px -14px 18px rgba(0,0,0,.4),0 0 34px rgba(117,220,233,.34)}
+.hero-orbit{position:absolute;z-index:1;bottom:-34vw;width:68vw;aspect-ratio:1;border-radius:50%;pointer-events:none;opacity:.55;filter:blur(.2px)}
+.hero-orbit-left{left:-45vw;background:radial-gradient(circle at 67% 29%,rgba(110,159,213,.78),rgba(19,44,76,.78) 28%,#050b16 64%);box-shadow:0 -22px 70px rgba(77,146,217,.14)}
+.hero-orbit-right{right:-45vw;background:radial-gradient(circle at 33% 29%,rgba(184,116,91,.62),rgba(65,30,26,.72) 30%,#090709 64%);box-shadow:0 -22px 70px rgba(183,91,67,.1)}
+.hero-orbit i{position:absolute;inset:-3%;border:1px solid rgba(255,255,255,.08);border-radius:inherit}
+.hero-scroll{position:absolute;z-index:3;left:50%;bottom:24px;width:54px;height:54px;display:grid;place-items:center;transform:translateX(-50%);border:1px solid rgba(255,255,255,.12);border-radius:50%;background:rgba(8,14,25,.58);color:#fff;font-size:22px;backdrop-filter:blur(8px);transition:background .2s ease,border-color .2s ease}
+.hero-scroll:hover{background:rgba(20,31,49,.78);border-color:rgba(117,220,233,.48)}
+.hero-content h1,.hero-content p,.hero-content .explore{opacity:1!important;clip-path:none!important;transform:none;animation:none!important;will-change:auto!important}
+@media(max-width:1100px){.hero-side-link{display:none}}
+@media(max-width:900px){
+  .hero{min-height:720px;height:100svh}
+  .hero-content{top:48%;width:calc(100% - 36px);transform:translate(-50%,-47%)}
+  .hero-eyebrow{font-size:12px;letter-spacing:.28em}
+  .hero-content h1{margin-top:22px;font-size:clamp(56px,17vw,82px);letter-spacing:.015em}
+  .hero-rule{width:64px;height:3px;margin-top:23px}
+  .hero-content p{max-width:330px;margin-top:22px;font-size:14px;line-height:1.65}
+  .hero-content p br{display:none}
+  .hero-actions{margin-top:36px}
+  .explore{min-width:210px;height:58px;padding:0 28px;font-size:13px}
+  .hero-orbit{bottom:-24vw;width:86vw;opacity:.34}
+  .hero-orbit-left{left:-65vw}.hero-orbit-right{right:-65vw}
+  .hero-scroll{bottom:18px;width:48px;height:48px}
+}
+
+/* Final Earth composition: original portfolio navigation stays untouched. */
+.hero-veil{background:linear-gradient(180deg,rgba(0,5,15,.16),rgba(0,6,18,.02) 48%,rgba(0,5,15,.16))}
+.earth-content{top:15.5%;width:min(760px,76vw);transform:translateX(-50%)}
+.earth-content .hero-eyebrow{font-size:clamp(14px,1.25vw,20px);letter-spacing:.32em}
+.earth-content h1{margin-top:clamp(20px,2.8vh,32px);font-size:clamp(76px,7vw,118px);letter-spacing:.045em}
+.earth-content .hero-rule{width:72px;margin-top:clamp(18px,2.3vh,27px)}
+.earth-content p{margin-top:clamp(17px,2.2vh,25px);font-size:clamp(13px,.92vw,16px);line-height:1.55}
+.earth-content .explore{display:inline-flex;margin-top:clamp(30px,4vh,44px);min-width:180px;height:54px;padding:0 28px;font-size:13px}
+.hero-planet-link{position:absolute;z-index:3;top:46%;display:flex;align-items:center;gap:18px;padding:0;border:0;background:none;color:#fff;font:400 clamp(14px,1.1vw,18px)/1 Georgia,serif;letter-spacing:.25em;text-shadow:0 2px 12px rgba(0,0,0,.6);cursor:pointer}
+.hero-planet-link img{display:block;width:clamp(100px,10vw,170px);height:auto;transition:transform .35s cubic-bezier(.22,1,.36,1)}
+.hero-planet-link:hover img{transform:scale(1.06)}
+.hero-planet-left{left:clamp(-86px,-5vw,-48px)}
+.hero-planet-right{right:clamp(-86px,-5vw,-48px)}
+.hero-scroll{bottom:5.5%;background:rgba(20,28,38,.68)}
+@media(max-width:900px){
+  .hero-poster{object-position:center}
+  .earth-content{top:18%;width:calc(100% - 32px);transform:translateX(-50%)}
+  .earth-content .hero-eyebrow{font-size:12px}
+  .earth-content h1{font-size:clamp(60px,20vw,82px);margin-top:18px}
+  .earth-content .hero-rule{margin-top:18px;width:58px}
+  .earth-content p{max-width:330px;margin-top:18px;font-size:13px}
+  .earth-content .explore{margin-top:28px;min-width:168px;height:50px}
+  .hero-planet-link{top:50%;gap:8px;font-size:12px;letter-spacing:.18em}
+  .hero-planet-link img{width:92px}
+  .hero-planet-left{left:-58px}.hero-planet-right{right:-58px}
+}
 
 /* React Bits-inspired dot field for otherwise empty dark areas. */
 .about{isolation:isolate;overflow:hidden}
