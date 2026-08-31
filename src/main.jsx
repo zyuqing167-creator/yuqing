@@ -13,7 +13,6 @@ function App() {
   const [activeSection, setActiveSection] = useState('home')
   const [isDesktopHero] = useState(() => window.matchMedia('(min-width: 901px)').matches)
   const [heroVideoReady, setHeroVideoReady] = useState(false)
-  const [activeHeroPlanet, setActiveHeroPlanet] = useState('earth')
   const projectScrollPosition = useRef(0)
   const projectIcons = [assetPath('portfolio-assets/icons/03-project-02.png'), assetPath('portfolio-assets/icons/03-project-03.png')]
   const projectData = [
@@ -22,13 +21,6 @@ function App() {
     { title: 'Web Official Site Design', folder: 'web', count: 6 },
     { title: 'Operation Visual Design', folder: 'visual', count: 6 },
   ]
-  const heroPlanets = {
-    earth: { name: 'EARTH', poster: 'earth-poster.jpg', cutout: 'earth.webp', description: <>Explore product design through a wider perspective.<br />Discover selected projects, visual systems and AI-powered workflows.</> },
-    venus: { name: 'VENUS', poster: 'venus-poster.jpg', cutout: 'venus.webp', description: <>Shape visual systems with clarity and character.<br />Explore interface decisions, interaction details and creative direction.</> },
-    mars: { name: 'MARS', poster: 'mars-poster.jpg', cutout: 'mars.webp', description: <>Turn ambitious ideas into practical digital experiences.<br />Discover product thinking, AI workflows and design exploration.</> },
-  }
-  const activeHero = heroPlanets[activeHeroPlanet]
-  const sideHeroPlanets = Object.keys(heroPlanets).filter(planet => planet !== activeHeroPlanet)
   const copy = async (text, label) => {
     await navigator.clipboard?.writeText(text)
     setCopyMessage(`${label} 已复制`)
@@ -79,21 +71,18 @@ function App() {
       </header>
       <main className="portfolio">
         <section className="hero" id="home" aria-label="首页">
-          <img className="hero-poster" key={activeHero.poster} src={assetPath(`web-assets/space-hero/${activeHero.poster}`)} alt="" fetchPriority="high" decoding="async" />
-          {isDesktopHero && activeHeroPlanet === 'earth' && <video className={`hero-video${heroVideoReady ? ' is-ready' : ''}`} autoPlay muted loop playsInline preload="metadata" poster={assetPath('web-assets/space-hero/earth-poster.jpg')} onCanPlay={() => setHeroVideoReady(true)}>
+          <img className="hero-poster" src={assetPath('web-assets/space-hero/earth-poster.jpg')} alt="" fetchPriority="high" decoding="async" />
+          {isDesktopHero && <video className={`hero-video${heroVideoReady ? ' is-ready' : ''}`} autoPlay muted loop playsInline preload="metadata" poster={assetPath('web-assets/space-hero/earth-poster.jpg')} onCanPlay={() => setHeroVideoReady(true)}>
             <source src={`${assetPath('web-assets/space-hero/earth.mp4')}?v=2`} type="video/mp4" />
           </video>}
           <div className="hero-veil" />
           <div className="hero-content earth-content">
-            <span className="hero-eyebrow">DESIGN WORLD</span>
-            <h1>{activeHero.name}</h1>
+            <span className="hero-eyebrow">UI · AI DESIGNER</span>
+            <h1>JIAXIANG</h1>
             <span className="hero-rule" aria-hidden="true" />
-            <p>{activeHero.description}</p>
-            <a className="explore" href="#project">GET STARTED</a>
+            <p>Designing meaningful product experiences,<br />visual systems and AI-powered workflows.</p>
+            <a className="explore" href="#project">VIEW PROJECTS</a>
           </div>
-          <button className="hero-planet-link hero-planet-left" type="button" onClick={() => setActiveHeroPlanet(sideHeroPlanets[0])} aria-label={`切换到 ${heroPlanets[sideHeroPlanets[0]].name}`}><img src={assetPath(`web-assets/space-hero/${heroPlanets[sideHeroPlanets[0]].cutout}`)} alt="" /><span>{heroPlanets[sideHeroPlanets[0]].name}</span></button>
-          <button className="hero-planet-link hero-planet-right" type="button" onClick={() => setActiveHeroPlanet(sideHeroPlanets[1])} aria-label={`切换到 ${heroPlanets[sideHeroPlanets[1]].name}`}><span>{heroPlanets[sideHeroPlanets[1]].name}</span><img src={assetPath(`web-assets/space-hero/${heroPlanets[sideHeroPlanets[1]].cutout}`)} alt="" /></button>
-          <a className="hero-scroll" href="#about" aria-label="向下查看个人经历"><span>↓</span></a>
       </section>
 
       <section className="about section-shell" id="about" style={{ backgroundImage: `linear-gradient(rgba(6,5,16,.05),rgba(6,5,16,.1)),url("${assetPath('web-assets/about-bg.jpg')}")` }}>
