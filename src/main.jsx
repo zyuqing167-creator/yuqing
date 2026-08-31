@@ -11,7 +11,7 @@ function App() {
   const [copyMessage, setCopyMessage] = useState('')
   const [isNavScrolled, setIsNavScrolled] = useState(false)
   const [activeSection, setActiveSection] = useState('home')
-  const [isDesktopHero] = useState(() => window.matchMedia('(min-width: 901px)').matches)
+  const [isDesktopHero] = useState(() => window.matchMedia('(min-width: 769px) and (hover: hover)').matches)
   const [heroVideoReady, setHeroVideoReady] = useState(false)
   const projectScrollPosition = useRef(0)
   const projectIcons = [assetPath('portfolio-assets/icons/03-project-02.png'), assetPath('portfolio-assets/icons/03-project-03.png')]
@@ -28,6 +28,9 @@ function App() {
   }
   const openProject = (project) => {
     projectScrollPosition.current = window.scrollY
+    const firstImage = new Image()
+    const folder = window.matchMedia('(max-width: 900px)').matches ? 'projects-phone' : 'projects-web'
+    firstImage.src = assetPath(`${folder}/${project.folder}/1.webp`)
     setActiveProject(project)
   }
   const closeProject = () => {
@@ -71,8 +74,8 @@ function App() {
       </header>
       <main className="portfolio">
         <section className="hero" id="home" aria-label="首页">
-          <img className="hero-poster" src={assetPath('web-assets/space-hero/earth-poster.jpg')} alt="" fetchPriority="high" decoding="async" />
-          {isDesktopHero && <video className={`hero-video${heroVideoReady ? ' is-ready' : ''}`} autoPlay muted loop playsInline preload="metadata" poster={assetPath('web-assets/space-hero/earth-poster.jpg')} onCanPlay={() => setHeroVideoReady(true)}>
+          <img className="hero-poster" src={assetPath('web-assets/space-hero/earth-poster-safe.jpg')} alt="" fetchPriority="high" decoding="sync" />
+          {isDesktopHero && <video className={`hero-video${heroVideoReady ? ' is-ready' : ''}`} autoPlay muted loop playsInline preload="auto" poster={assetPath('web-assets/space-hero/earth-poster-safe.jpg')} onPlaying={() => setHeroVideoReady(true)}>
             <source src={`${assetPath('web-assets/space-hero/earth.mp4')}?v=2`} type="video/mp4" />
           </video>}
           <div className="hero-veil" />
@@ -113,7 +116,7 @@ function App() {
 
       <section className="contact section-shell" id="contact"><DotGrid className="section-dot-grid" dotSize={1.2} gap={34} baseColor="#251d38" activeColor="#9676ff" proximity={140} /><span>CONTACT</span><div className="contact-content"><h2>Ready to Build<br />the Future Together?</h2><p>If my work resonates with you,<br />let's explore new creative possibilities<br />- through visual design, AI, and ideas that push beyond boundaries.</p></div><div className="contact-footer"><div><button type="button" onClick={() => copy('15565043305', '手机号')}><img src={assetPath('portfolio-assets/icons/05-contactTelephone-02.png')} alt="" /><span>15565043305</span></button><button type="button" onClick={() => copy('768340092@qq.com', '邮箱')}><img src={assetPath('portfolio-assets/icons/05-contact-Email-03.png')} alt="" /><span>768340092@qq.com</span></button><button type="button" onClick={() => copy('Zz-wine', '微信号')}><img src={assetPath('portfolio-assets/icons/05-contact-WeChat-04.png')} alt="" /><span>Zz-wine</span></button></div><button className="say-hello" type="button" onClick={() => setShowWechat(true)}>Say Hello　→</button></div></section>
       {showWechat && <div className="wechat-modal" role="dialog" aria-modal="true" aria-label="联系方式"><button className="modal-backdrop" aria-label="关闭联系方式" onClick={() => setShowWechat(false)} /><section className="contact-card"><button className="contact-modal-close" type="button" onClick={() => setShowWechat(false)} aria-label="关闭">×</button><h2>CONTACT</h2><div className="contact-card-list"><button type="button" onClick={() => copy('15565043305', '手机号')}><img src={assetPath('portfolio-assets/icons/05-contactTelephone-02.png')} alt="" /><span>15565043305</span></button><button type="button" onClick={() => copy('768340092@qq.com', '邮箱')}><img src={assetPath('portfolio-assets/icons/05-contact-Email-03.png')} alt="" /><span>768340092@qq.com</span></button><button type="button" onClick={() => copy('Zz-wine', '微信号')}><img src={assetPath('portfolio-assets/icons/05-contact-WeChat-04.png')} alt="" /><span>Zz-wine</span></button></div><img className="contact-qr" src={assetPath('portfolio-assets/icons/05contact-05.png')} alt="微信二维码" /></section></div>}
-      {activeProject && <div className="gallery-modal" id="project-detail" role="dialog" aria-modal="true" aria-label={activeProject.title}><button className="modal-backdrop" aria-label="关闭作品集" onClick={closeProject} /><div className="gallery"><header><div><span>SELECTED PROJECT</span><h2>{activeProject.title}</h2></div></header><div className="gallery-grid">{Array.from({length: activeProject.count}, (_, index) => <picture key={index}><source media="(max-width: 900px)" srcSet={assetPath(`projects-phone/${activeProject.folder}/${index + 1}.jpg`)} /><img src={assetPath(`projects-web/${activeProject.folder}/${index + 1}.jpg`)} alt={`${activeProject.title} 作品 ${index + 1}`} loading={index === 0 ? 'eager' : 'lazy'} decoding="async" /></picture>)}</div></div></div>}
+      {activeProject && <div className="gallery-modal" id="project-detail" role="dialog" aria-modal="true" aria-label={activeProject.title}><button className="modal-backdrop" aria-label="关闭作品集" onClick={closeProject} /><div className="gallery"><header><div><span>SELECTED PROJECT</span><h2>{activeProject.title}</h2></div></header><div className="gallery-grid">{Array.from({length: activeProject.count}, (_, index) => <picture key={index}><source media="(max-width: 900px)" type="image/webp" srcSet={assetPath(`projects-phone/${activeProject.folder}/${index + 1}.webp`)} /><source media="(max-width: 900px)" srcSet={assetPath(`projects-phone/${activeProject.folder}/${index + 1}.jpg`)} /><source type="image/webp" srcSet={assetPath(`projects-web/${activeProject.folder}/${index + 1}.webp`)} /><img src={assetPath(`projects-web/${activeProject.folder}/${index + 1}.jpg`)} alt={`${activeProject.title} 作品 ${index + 1}`} loading={index === 0 ? 'eager' : 'lazy'} fetchPriority={index === 0 ? 'high' : 'auto'} decoding="async" /></picture>)}</div></div></div>}
       {copyMessage && <div className="copy-toast" role="status">{copyMessage}</div>}
       </main>
       {activeProject && <button className="project-close" type="button" aria-label="关闭项目详情" aria-controls="project-detail" onClick={closeProject}>×</button>}
